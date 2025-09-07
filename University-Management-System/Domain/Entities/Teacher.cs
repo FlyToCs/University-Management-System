@@ -3,7 +3,7 @@ using University_Management_System.Domain.Enums;
 
 namespace University_Management_System.Domain.Entities;
 
-internal class Teacher(int id, 
+public class Teacher(int id, 
     string firstName, 
     string lastName, 
     string username,
