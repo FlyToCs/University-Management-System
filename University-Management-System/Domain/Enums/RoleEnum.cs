@@ -1,6 +1,6 @@
 ﻿namespace University_Management_System.Domain.Enums;
 
-public enum RollEnum
+public enum RoleEnum
 {
     Student,
     Teacher, 

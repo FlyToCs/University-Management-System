@@ -10,12 +10,13 @@ public class Class
     public DateTime? StartTime { get; private set; }
     public DateTime? EndTime { get; private set; }
 
-    public Class(int id, string className, Teacher teacher, DateTime startTime, DateTime endTime)
+    public Class(int id, string className, Teacher teacher,Course course, DateTime startTime, DateTime endTime)
     {
         Id = id;
         ClassName = className;
         Teacher = teacher;
-        Students = new List<Enrollment>();
+        Course = course;
+        Enrollments = new List<Enrollment>();
         StartTime = startTime;
         EndTime = endTime;
     }

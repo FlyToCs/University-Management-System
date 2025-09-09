@@ -11,17 +11,17 @@ public class User(
     string username,
     string password,
     string email,
-    RollEnum roll)
+    RoleEnum role)
 {
 
     public int Id { get; private set; } = id;
-    public required string FirstName { get; set; } = firstName;
-    public required string LastName { get; set; } = lastName;
+    public string FirstName { get; set; } = firstName;
+    public string LastName { get; set; } = lastName;
     public string? Email { get; set; } = email;
-    public required string UserName { get; set; } = username;
+    public string UserName { get; set; } = username;
     private string Password { get; set; } = password;
     public bool IsActive { get; private set; } = false;
-    public RollEnum Roll { get; set; } = roll;
+    public RoleEnum Role { get; set; } = role;
 
     public void Activate()
     {

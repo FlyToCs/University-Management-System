@@ -9,7 +9,7 @@ public class Teacher(int id,
     string username,
     string password, 
     string email, 
-    RollEnum roll) : User(id, firstName, lastName, username, password, email, roll)
+    RoleEnum role) : User(id, firstName, lastName, username, password, email, role)
 {
     public override void EnsurePassword(string password)
     {
