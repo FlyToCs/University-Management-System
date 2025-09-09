@@ -5,35 +5,21 @@ using University_Management_System.Domain.Enums;
 
 namespace University_Management_System.Application.Services
 {
-    public class Authentication : IAuthentication
+    public class AuthenticationService : IAuthentication
     {
-
-        public User Login(string email, string password)
+        
+        private readonly IUserService _userService = new UserService();
+        public User Login(string userName, string password)
         {
+            foreach (var user in _userService.GetUsers())
+            {
+                if (user.UserName.ToLower() == userName.ToLower())
+                {
+                    return user;
+                }
+            }
 
-            EmailValidation(email);
-
-            User foundUser = null!;
-            // foreach (var user in Storage.UserList)
-            // {
-            //     if (user.Email != null && user.Email.ToLower() == email.ToLower())
-            //     {
-            //         foundUser = user;
-            //         break;
-            //     }
-            // }
-            //
-            // if (foundUser == null)
-            // {
-            //     throw new UserNotFoundException("User not found in the system.");
-            // }
-            //
-            // if (foundUser.Password != password)
-            // {
-            //     throw new InvalidPasswordException("Password is incorrect.");
-            // }
-
-            return foundUser;
+            throw new UserNotFoundException("The username or password doesn't match");
         }
 
 
@@ -69,24 +55,30 @@ namespace University_Management_System.Application.Services
 
 
             //User newUser;
-            User newUsr = null!;
+            User newUser = new User();
             if (role == RoleEnum.Student)
             {
-                newUsr = new Student(1, firstName, lastname, userName, password, email, RoleEnum.Student);
-                
-            }
-            else if (role == RoleEnum.Teacher)
-            {
-                newUsr = new Teacher(1, firstName, lastname, userName, password, email, RoleEnum.Teacher);
-                
-            }
-            else if (role == RoleEnum.Operator)
-            {
-                newUsr = new Operator(1, firstName, lastname, userName, password, email, RoleEnum.Operator);
-                
+                  newUser = new Student(1, firstName, lastname, userName, password, email, RoleEnum.Student);
+                 _userService.AddUser(newUser);
             }
 
-            return newUsr;
+
+            else if (role == RoleEnum.Teacher)
+            {
+                 newUser = new Teacher(1, firstName, lastname, userName, password, email, RoleEnum.Teacher);
+                _userService.AddUser(newUser);
+            }
+
+
+            else if (role == RoleEnum.Operator)
+            {
+                 newUser = new Operator(1, firstName, lastname, userName, password, email, RoleEnum.Operator);
+                _userService.AddUser(newUser);
+            }
+
+
+
+            return newUser;
         }
     }
 }
