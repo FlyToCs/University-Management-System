@@ -9,11 +9,12 @@ public class Course
 
     public List<Course> Prerequisite { get; private set; } 
 
-    public Course(int id, string name, int unit)
+    public Course(int id, string name, int unit, string description)
     {
         Id = id;
         Name = name;
         Unit = unit;
+        Description = description;
         Prerequisite = new();
     }
 

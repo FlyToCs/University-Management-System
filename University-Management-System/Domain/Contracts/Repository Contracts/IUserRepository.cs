@@ -9,6 +9,7 @@ public interface IUserRepository
     List<User> GetAllUsers();
     void DeleteUser(User user);
     void UpdateUser(User user);
+    int GetMaxId();
 
 
 }

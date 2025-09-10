@@ -11,18 +11,27 @@ public class FileUserRepository : IUserRepository
     private List<User> LoadFile()
     {
         var json = File.ReadAllText(_path);
-        List<User> users = JsonConvert.DeserializeObject<List<User>>(json)?? new List<User>();
+        var users = JsonConvert.DeserializeObject<List<User>>(json, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.All
+        }) ?? new List<User>();
+
         return users;
     }
 
     private void SaveFile(List<User> users)
     {
-        var json = JsonConvert.SerializeObject(users, Formatting.Indented, new JsonSerializerSettings()
+        var settings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.All
-        });
+            TypeNameHandling = TypeNameHandling.Auto,
+            TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
+            Formatting = Formatting.Indented
+        };
+
+        var json = JsonConvert.SerializeObject(users, settings);
         File.WriteAllText(_path, json);
     }
+
     public User AddUser(User user)
     {
 
@@ -42,7 +51,7 @@ public class FileUserRepository : IUserRepository
                 return user;
             }
         }
-        return new User();
+        return null!;
     }
 
     public List<User> GetAllUsers()
@@ -76,5 +85,19 @@ public class FileUserRepository : IUserRepository
             }
         }
         SaveFile(userList);
+    }
+
+    public int GetMaxId()
+    {
+        int max = 0;
+        foreach (var user in LoadFile())
+        {
+            if (user.Id > max)
+            {
+                max = user.Id;
+            }
+        }
+
+        return max;
     }
 }

@@ -8,6 +8,5 @@ public interface IUserService
     User GetUser(int id);
     void UpdateUser(User user);
     List<User> GetUsers();
-
-
+    int GenerateUserId();
 }

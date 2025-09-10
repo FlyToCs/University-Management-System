@@ -7,15 +7,21 @@ namespace University_Management_System.Application.Services
 {
     public class AuthenticationService : IAuthentication
     {
-        
         private readonly IUserService _userService = new UserService();
+
         public User Login(string userName, string password)
         {
             foreach (var user in _userService.GetUsers())
             {
                 if (user.UserName.ToLower() == userName.ToLower())
                 {
-                    return user;
+                    if (user.IsActive)
+                    {
+                        return user;
+                    }
+
+                    throw new Exception("your username is not active. Contact the manager!");
+
                 }
             }
 
@@ -54,31 +60,28 @@ namespace University_Management_System.Application.Services
             EmailValidation(email);
 
 
-            //User newUser;
-            User newUser = new User();
             if (role == RoleEnum.Student)
             {
-                  newUser = new Student(1, firstName, lastname, userName, password, email, RoleEnum.Student);
-                 _userService.AddUser(newUser);
+                  var newUser = new Student(_userService.GenerateUserId(), 100000+_userService.GenerateUserId(), firstName, lastname, userName, password, email, RoleEnum.Student);
+                 return _userService.AddUser(newUser);
             }
 
 
             else if (role == RoleEnum.Teacher)
             {
-                 newUser = new Teacher(1, firstName, lastname, userName, password, email, RoleEnum.Teacher);
-                _userService.AddUser(newUser);
+                 var newUser = new Teacher(_userService.GenerateUserId(), 200000 + _userService.GenerateUserId(), firstName, lastname, userName, password, email, RoleEnum.Teacher);
+                return _userService.AddUser(newUser);
             }
 
 
             else if (role == RoleEnum.Operator)
             {
-                 newUser = new Operator(1, firstName, lastname, userName, password, email, RoleEnum.Operator);
-                _userService.AddUser(newUser);
+                 var newUser = new Operator(_userService.GenerateUserId(), 300000 + _userService.GenerateUserId(), firstName, lastname, userName, password, email, RoleEnum.Operator);
+                return _userService.AddUser(newUser);
             }
 
 
-
-            return newUser;
+            throw new Exception("registration failed");
         }
     }
 }

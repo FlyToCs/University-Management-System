@@ -27,4 +27,9 @@ public class UserService : IUserService
     {
         return _userRepository.GetAllUsers();
     }
+
+    public int GenerateUserId()
+    {
+        return _userRepository.GetMaxId() + 1;
+    }
 }
