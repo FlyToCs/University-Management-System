@@ -21,7 +21,6 @@ namespace University_Management_System.Application.Services
                     }
 
                     throw new Exception("your username is not active. Contact the manager!");
-
                 }
             }
 

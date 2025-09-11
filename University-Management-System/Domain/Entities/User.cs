@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using University_Management_System.Domain.Enums;
 using University_Management_System.Domain.Exceptions;
 
@@ -20,19 +21,14 @@ public abstract class User(
     public string? Email { get; set; } = email;
     public string UserName { get; set; } = username;
     private string Password { get; set; } = password;
-    public bool IsActive { get; private set; } = false;
+    [JsonProperty]
+    public bool IsActive { get;private set; }
     public RoleEnum Role { get; set; } = role;
 
 
-    public void Activate()
-    {
-        IsActive = true;
-    }
 
-    public void DeActivate()
-    {
-        IsActive = false;
-    }
+
+
 
 
     public virtual void EnsurePassword(string password)
@@ -55,5 +51,9 @@ public abstract class User(
     {
         return Password == password;
     }
+
+    public void SetId(int id) => Id = id;
+    public void Activate() => IsActive = true;
+    public void Deactivate() => IsActive = false;
 
 }

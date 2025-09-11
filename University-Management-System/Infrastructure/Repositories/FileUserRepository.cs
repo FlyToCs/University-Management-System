@@ -10,12 +10,16 @@ public class FileUserRepository : IUserRepository
 
     private List<User> LoadFile()
     {
-        var json = File.ReadAllText(_path);
-        var users = JsonConvert.DeserializeObject<List<User>>(json, new JsonSerializerSettings
-        {
-            TypeNameHandling = TypeNameHandling.All
-        }) ?? new List<User>();
+        if (!File.Exists(_path)) return new List<User>();
 
+        var json = File.ReadAllText(_path);
+        var settings = new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Auto,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        };
+
+        var users = JsonConvert.DeserializeObject<List<User>>(json, settings) ?? new List<User>();
         return users;
     }
 
@@ -23,7 +27,8 @@ public class FileUserRepository : IUserRepository
     {
         var settings = new JsonSerializerSettings
         {
-            TypeNameHandling = TypeNameHandling.Auto,
+            TypeNameHandling = TypeNameHandling.Auto, 
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Simple,
             Formatting = Formatting.Indented
         };

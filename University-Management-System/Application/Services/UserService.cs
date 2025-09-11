@@ -27,6 +27,12 @@ public class UserService : IUserService
     {
         return _userRepository.GetAllUsers();
     }
+    public void DeleteUser(int userId)
+    {
+        var user = GetUser(userId);
+        if (user != null)
+            _userRepository.DeleteUser(user);
+    }
 
     public int GenerateUserId()
     {

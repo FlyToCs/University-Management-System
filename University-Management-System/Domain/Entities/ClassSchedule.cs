@@ -1,11 +1,21 @@
-﻿namespace University_Management_System.Domain.Entities;
+﻿using Newtonsoft.Json;
+
+namespace University_Management_System.Domain.Entities;
 
 public class ClassSchedule
 {
+    [JsonProperty]
     public DayOfWeek Day { get; private set; }
+    [JsonProperty]
     public TimeSpan StartTime { get; private set; }
+    [JsonProperty]
     public TimeSpan EndTime { get; private set; }
 
+    public ClassSchedule()
+    {
+        
+    }
+    [JsonConstructor]
     public ClassSchedule(DayOfWeek day, TimeSpan startTime, TimeSpan endTime)
     {
         if (endTime <= startTime)

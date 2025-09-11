@@ -8,5 +8,6 @@ public interface IUserService
     User GetUser(int id);
     void UpdateUser(User user);
     List<User> GetUsers();
+    void DeleteUser(int userId);
     int GenerateUserId();
 }

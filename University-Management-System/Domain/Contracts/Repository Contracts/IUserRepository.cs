@@ -10,6 +10,4 @@ public interface IUserRepository
     void DeleteUser(User user);
     void UpdateUser(User user);
     int GetMaxId();
-
-
 }
